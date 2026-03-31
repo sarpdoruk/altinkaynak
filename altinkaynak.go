@@ -88,8 +88,8 @@ type Altinkaynak struct {
 type Resource struct {
 	Code         string `json:"Kod"`
 	Name         string `json:"Aciklama"`
-	buyString    string `json:"Alis"`
-	sellString   string `json:"Satis"`
+	BuyString    string `json:"Alis"`
+	SellString   string `json:"Satis"`
 	Buy          float64
 	Sell         float64
 	UpdatedAtRaw string `json:"GuncellenmeZamani"`

@@ -33,8 +33,8 @@ func (cs *CurrencyService) Fetch() error {
 
 	cs.currencies = make(map[string]Resource, len(currencies))
 	for _, c := range currencies {
-		c.Buy, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(c.buyString, ".", ""), ",", "."), 64)
-		c.Sell, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(c.sellString, ".", ""), ",", "."), 64)
+		c.Buy, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(c.BuyString, ".", ""), ",", "."), 64)
+		c.Sell, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(c.SellString, ".", ""), ",", "."), 64)
 		c.UpdatedAt, _ = time.ParseInLocation(dateTimeFormat, c.UpdatedAtRaw, location)
 		cs.currencies[c.Code] = c
 	}

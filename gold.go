@@ -32,11 +32,11 @@ func (gs *GoldService) Fetch() error {
 	}
 
 	gs.golds = make(map[string]Resource, len(golds))
-	for _, c := range golds {
-		c.Buy, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(c.buyString, ".", ""), ",", "."), 64)
-		c.Sell, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(c.sellString, ".", ""), ",", "."), 64)
-		c.UpdatedAt, _ = time.ParseInLocation(dateTimeFormat, c.UpdatedAtRaw, location)
-		gs.golds[c.Code] = c
+	for _, g := range golds {
+		g.Buy, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(g.BuyString, ".", ""), ",", "."), 64)
+		g.Sell, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(g.SellString, ".", ""), ",", "."), 64)
+		g.UpdatedAt, _ = time.ParseInLocation(dateTimeFormat, g.UpdatedAtRaw, location)
+		gs.golds[g.Code] = g
 	}
 
 	return nil
