@@ -14,28 +14,30 @@ func TestGoldGet(t *testing.T) {
 		input string
 		want  string
 	}{
-		{"GOLD_HAS_TOPTAN code should be HH_T", GOLD_HAS_TOPTAN, "HH_T"},
-		{"GOLD_KULCE_TOPTAN code should be CH_T", GOLD_KULCE_TOPTAN, "CH_T"},
-		{"GOLD_GRAM_TOPTAN code should be GAT", GOLD_GRAM_TOPTAN, "GAT"},
-		{"GOLD_22_AYAR_HURDA code should be B_T", GOLD_22_AYAR_HURDA, "B_T"},
-		{"GOLD_ATA_TOPTAN code should be A_T", GOLD_ATA_TOPTAN, "A_T"},
-		{"GOLD_ESKI_CEYREK code should be EC", GOLD_ESKI_CEYREK, "EC"},
-		{"GOLD_ESKI_YARIM code should be EY", GOLD_ESKI_YARIM, "EY"},
-		{"GOLD_ESKI_TEKLIK code should be ET", GOLD_ESKI_TEKLIK, "ET"},
-		{"GOLD_ESKI_GREMSE code should be EG", GOLD_ESKI_GREMSE, "EG"},
-		{"GOLD_GUMUS code should be AG_T", GOLD_GUMUS, "AG_T"},
-		{"GOLD_ATA_CUMHURIYET code should be A", GOLD_ATA_CUMHURIYET, "A"},
-		{"GOLD_22_AYAR_BILEZIK code should be B", GOLD_22_AYAR_BILEZIK, "B"},
-		{"GOLD_18_AYAR code should be 18", GOLD_18_AYAR, "18"},
-		{"GOLD_14_AYAR code should be 14", GOLD_14_AYAR, "14"},
-		{"GOLD_CEYREK code should be C", GOLD_CEYREK, "C"},
-		{"GOLD_YARIM code should be Y", GOLD_YARIM, "Y"},
-		{"GOLD_TEKLIK code should be T", GOLD_TEKLIK, "T"},
-		{"GOLD_GREMSE code should be G", GOLD_GREMSE, "G"},
-		{"GOLD_ATA_BESLI code should be A5", GOLD_ATA_BESLI, "A5"},
-		{"GOLD_RESAT code should be R", GOLD_RESAT, "R"},
-		{"GOLD_HAMIT code should be H", GOLD_HAMIT, "H"},
-		{"GOLD_GRAM code should be GA", GOLD_GRAM, "GA"},
+		{"GoldHasToptan code should be HH_T", GoldHasToptan, "HH_T"},
+		{"GoldKulceToptan code should be CH_T", GoldKulceToptan, "CH_T"},
+		{"GoldAtaCumhuriyet code should be A", GoldAtaCumhuriyet, "A"},
+		{"GoldGramToptan code should be GAT", GoldGramToptan, "GAT"},
+		{"Gold22AyarHurda code should be B_T", Gold22AyarHurda, "B_T"},
+		{"GoldAtaToptan code should be A_T", GoldAtaToptan, "A_T"},
+		{"Gold22AyarBilezik code should be B", Gold22AyarBilezik, "B"},
+		{"Gold18Ayar code should be 18", Gold18Ayar, "18"},
+		{"Gold14Ayar code should be 14", Gold14Ayar, "14"},
+		{"GoldCeyrek code should be C", GoldCeyrek, "C"},
+		{"GoldYarim code should be Y", GoldYarim, "Y"},
+		{"GoldTeklik code should be T", GoldTeklik, "T"},
+		{"GoldGremse code should be G", GoldGremse, "G"},
+		{"GoldAtaBesli code should be A5", GoldAtaBesli, "A5"},
+		{"GoldResat code should be R", GoldResat, "R"},
+		{"GoldHamit code should be H", GoldHamit, "H"},
+		{"GoldGram code should be GA", GoldGram, "GA"},
+		{"GoldEskiCeyrek code should be EC", GoldEskiCeyrek, "EC"},
+		{"GoldEskiYarim code should be EY", GoldEskiYarim, "EY"},
+		{"GoldEskiTeklik code should be ET", GoldEskiTeklik, "ET"},
+		{"GoldEskiGremse code should be EG", GoldEskiGremse, "EG"},
+		{"GoldGumus code should be AG_T", GoldGumus, "AG_T"},
+		{"GoldOns code should be XAUUSD", GoldOns, "XAUUSD"},
+		{"GoldIabKapanis code should be IAB_KAPANIS", GoldIabKapanis, "IAB_KAPANIS"},
 	}
 
 	for _, tt := range tests {
@@ -56,7 +58,7 @@ func ExampleGoldService_Fetch() {
 func ExampleGoldService_Get() {
 	a := NewAltinkaynak()
 	_ = a.GoldService.Fetch()
-	c := a.GoldService.Get(GOLD_GUMUS)
+	c := a.GoldService.Get(GoldGumus)
 	fmt.Println(c.Code)
 	fmt.Println(c.Name)
 	// Output:

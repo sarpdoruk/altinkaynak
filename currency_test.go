@@ -14,21 +14,20 @@ func TestCurrencyGet(t *testing.T) {
 		input string
 		want  string
 	}{
-		{"CURRENCY_USD code should be USD", CURRENCY_USD, "USD"},
-		{"CURRENCY_EUR code should be EUR", CURRENCY_EUR, "EUR"},
-		{"CURRENCY_CHF code should be CHF", CURRENCY_CHF, "CHF"},
-		{"CURRENCY_GBP code should be GBP", CURRENCY_GBP, "GBP"},
-		{"CURRENCY_JPY code should be JPY", CURRENCY_JPY, "JPY"},
-		{"CURRENCY_SAR code should be SAR", CURRENCY_SAR, "SAR"},
-		{"CURRENCY_AUD code should be AUD", CURRENCY_AUD, "AUD"},
-		{"CURRENCY_CAD code should be CAD", CURRENCY_CAD, "CAD"},
-		{"CURRENCY_RUB code should be RUB", CURRENCY_RUB, "RUB"},
-		{"CURRENCY_AZN code should be AZN", CURRENCY_AZN, "AZN"},
-		{"CURRENCY_CNY code should be CNY", CURRENCY_CNY, "CNY"},
-		{"CURRENCY_RON code should be RON", CURRENCY_RON, "RON"},
-		{"CURRENCY_AED code should be AED", CURRENCY_AED, "AED"},
-		{"CURRENCY_BGN code should be BGN", CURRENCY_BGN, "BGN"},
-		{"CURRENCY_KWD code should be KWD", CURRENCY_KWD, "KWD"},
+		{"CURRENCY_USD code should be USD", CurrencyUsd, "USD"},
+		{"CURRENCY_EUR code should be EUR", CurrencyEur, "EUR"},
+		{"CURRENCY_CHF code should be CHF", CurrencyChf, "CHF"},
+		{"CURRENCY_GBP code should be GBP", CurrencyGbp, "GBP"},
+		{"CURRENCY_JPY code should be JPY", CurrencyJpy, "JPY"},
+		{"CURRENCY_SAR code should be SAR", CurrencySar, "SAR"},
+		{"CURRENCY_AUD code should be AUD", CurrencyAud, "AUD"},
+		{"CURRENCY_CAD code should be CAD", CurrencyCad, "CAD"},
+		{"CURRENCY_RUB code should be RUB", CurrencyRub, "RUB"},
+		{"CURRENCY_AZN code should be AZN", CurrencyAzn, "AZN"},
+		{"CURRENCY_CNY code should be CNY", CurrencyCny, "CNY"},
+		{"CURRENCY_RON code should be RON", CurrencyRon, "RON"},
+		{"CURRENCY_AED code should be AED", CurrencyAed, "AED"},
+		{"CURRENCY_KWD code should be KWD", CurrencyKwd, "KWD"},
 	}
 
 	for _, tt := range tests {
@@ -49,7 +48,7 @@ func ExampleCurrencyService_Fetch() {
 func ExampleCurrencyService_Get() {
 	a := NewAltinkaynak()
 	_ = a.CurrencyService.Fetch()
-	c := a.CurrencyService.Get(CURRENCY_USD)
+	c := a.CurrencyService.Get(CurrencyUsd)
 	fmt.Println(c.Code)
 	fmt.Println(c.Name)
 	// Output:

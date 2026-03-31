@@ -1,32 +1,15 @@
 package altinkaynak
 
 import (
-	"encoding/xml"
+	"encoding/json"
+	"strconv"
+	"strings"
 	"time"
 )
-
-// currencyResponseEnvelope is the response envelope of the currency service
-type currencyResponseEnvelope struct {
-	XMLName xml.Name
-	Body    currencyResponseBody
-}
-
-// currencyResponseBody is the response body of the currency service
-type currencyResponseBody struct {
-	XMLName             xml.Name
-	GetCurrencyResponse currencyResponseData `xml:"GetCurrencyResponse"`
-}
-
-// currencyResponseData is the response data of the currency service
-type currencyResponseData struct {
-	XMLName           xml.Name `xml:"GetCurrencyResponse"`
-	GetCurrencyResult string   `xml:"GetCurrencyResult"`
-}
 
 // CurrencyService is the service for fetching currency data
 type CurrencyService struct {
 	apiUrl     string
-	payload    string
 	currencies map[string]Resource
 }
 
@@ -37,27 +20,21 @@ func (cs *CurrencyService) Get(code string) Resource {
 
 // Fetch fetches the currency data
 func (cs *CurrencyService) Fetch() error {
-	response, err := SendRequest("POST", cs.apiUrl, cs.payload)
+	response, err := SendRequest("GET", cs.apiUrl)
 	if err != nil {
 		return err
 	}
 
-	currencyResponseEnvelope := &currencyResponseEnvelope{}
-	err = xml.Unmarshal(response, currencyResponseEnvelope)
+	var currencies []Resource
+	err = json.Unmarshal(response, &currencies)
 	if err != nil {
 		return err
 	}
 
-	currencyResultEnvelope := &getResultEnvelope{}
-	err = xml.Unmarshal(
-		[]byte(currencyResponseEnvelope.Body.GetCurrencyResponse.GetCurrencyResult), currencyResultEnvelope,
-	)
-	if err != nil {
-		return err
-	}
-
-	cs.currencies = make(map[string]Resource, len(currencyResultEnvelope.Resources))
-	for _, c := range currencyResultEnvelope.Resources {
+	cs.currencies = make(map[string]Resource, len(currencies))
+	for _, c := range currencies {
+		c.Buy, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(c.buyString, ".", ""), ",", "."), 64)
+		c.Sell, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(c.sellString, ".", ""), ",", "."), 64)
 		c.UpdatedAt, _ = time.ParseInLocation(dateTimeFormat, c.UpdatedAtRaw, location)
 		cs.currencies[c.Code] = c
 	}

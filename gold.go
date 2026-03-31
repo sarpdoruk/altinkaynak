@@ -1,65 +1,42 @@
 package altinkaynak
 
 import (
-	"encoding/xml"
+	"encoding/json"
+	"strconv"
+	"strings"
 	"time"
 )
 
-// goldResponseEnvelope is the response envelope of the gold service
-type goldResponseEnvelope struct {
-	XMLName xml.Name
-	Body    goldResponseBody
-}
-
-// goldResponseBody is the response body of the gold service
-type goldResponseBody struct {
-	XMLName         xml.Name
-	GetGoldResponse goldResponseData `xml:"GetGoldResponse"`
-}
-
-// goldResponseData is the response data of the gold service
-type goldResponseData struct {
-	XMLName       xml.Name `xml:"GetGoldResponse"`
-	GetGoldResult string   `xml:"GetGoldResult"`
-}
-
 // GoldService is the service for fetching gold data
 type GoldService struct {
-	apiUrl     string
-	payload    string
-	currencies map[string]Resource
+	apiUrl string
+	golds  map[string]Resource
 }
 
 // Get returns a gold resource by its code
-func (cs *GoldService) Get(code string) Resource {
-	return cs.currencies[code]
+func (gs *GoldService) Get(code string) Resource {
+	return gs.golds[code]
 }
 
 // Fetch fetches the gold data
-func (cs *GoldService) Fetch() error {
-	response, err := SendRequest("POST", cs.apiUrl, cs.payload)
+func (gs *GoldService) Fetch() error {
+	response, err := SendRequest("GET", gs.apiUrl)
 	if err != nil {
 		return err
 	}
 
-	goldResponseEnvelope := &goldResponseEnvelope{}
-	err = xml.Unmarshal(response, goldResponseEnvelope)
+	var golds []Resource
+	err = json.Unmarshal(response, &golds)
 	if err != nil {
 		return err
 	}
 
-	goldResultEnvelope := &getResultEnvelope{}
-	err = xml.Unmarshal(
-		[]byte(goldResponseEnvelope.Body.GetGoldResponse.GetGoldResult), goldResultEnvelope,
-	)
-	if err != nil {
-		return err
-	}
-
-	cs.currencies = make(map[string]Resource, len(goldResultEnvelope.Resources))
-	for _, c := range goldResultEnvelope.Resources {
+	gs.golds = make(map[string]Resource, len(golds))
+	for _, c := range golds {
+		c.Buy, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(c.buyString, ".", ""), ",", "."), 64)
+		c.Sell, _ = strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(c.sellString, ".", ""), ",", "."), 64)
 		c.UpdatedAt, _ = time.ParseInLocation(dateTimeFormat, c.UpdatedAtRaw, location)
-		cs.currencies[c.Code] = c
+		gs.golds[c.Code] = c
 	}
 
 	return nil
